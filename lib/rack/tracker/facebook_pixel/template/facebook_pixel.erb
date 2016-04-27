@@ -1,0 +1,31 @@
+<script type="text/javascript">
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','//connect.facebook.net/en_US/fbevents.js');
+
+  fbq('init', '<%= options[:pixel_id] %>');
+  fbq('track', "PageView");
+</script>
+
+<noscript>
+  <img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=<%= options[:pixel_id] %>&amp;ev=PageView&amp;noscript=1"
+/>
+</noscript>
+
+<% if events.any? %>
+<script type="text/javascript">
+<% events.each do |event| %>
+fbq(<%= event.write %>);
+<% end %>
+</script>
+
+<noscript>
+  <% events.each do |event| %>
+  <img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=<%= options[:pixel_id] %>&amp;ev=<%= event.event %>&amp;cd[value]=<%= event.value %>&amp;cd[currency]=<%= event.currency %>"/>
+  <% end %>
+</noscript>
+<% end %>
